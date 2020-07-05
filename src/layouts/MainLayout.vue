@@ -26,9 +26,9 @@
           <q-btn color="grey" flat v-for="item in menuItensFiltered" v-bind:key="item.id" clickable :to="item.ref" :icon="item.icon" />
         </div>
       </q-toolbar>
-      <q-page-sticky v-if="pendingSync" position="bottom-right" :offset="[18, 18]">
+      <!-- <q-page-sticky v-if="pendingSync" position="bottom-right" :offset="[18, 18]">
         <q-btn fab icon="publish" color="primary" @click="show = true" />
-      </q-page-sticky>
+      </q-page-sticky> -->
     </q-footer>
   </q-layout>
 </template>

@@ -1,10 +1,9 @@
 <template>
   <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
     <q-layout class="layout-page-login q-pa-lg" row wrap>
-
+      <div class="q-pa-md row"><q-icon size="24rem" name="img:icons/logo_herois.svg"/></div>
       <div class="area-login fixed-center">
         <div id="box-login" >
-          <div class="q-pa-md row"><q-icon size="8rem" name="img:icons/macaquinho.png"/></div>
           <div id="formulario">
             <!-- User -->
             <q-input xs12 label="E-mail"
