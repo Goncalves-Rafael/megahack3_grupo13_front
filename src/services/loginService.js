@@ -30,6 +30,7 @@ export default {
               ' FROM ' + response.papel +
               ' WHERE id = ?', [response.id],
               function (results) {
+                if (results.length === 0) reject()
                 const usuarioDados = {
                   ...response,
                   ...results[0]
@@ -44,6 +45,9 @@ export default {
                 reject(error)
               }
             )
+          })
+          .catch(err => {
+            reject(err)
           })
       } catch (error) {
         reject(error)
@@ -63,7 +67,7 @@ export default {
           if (results[0]) {
             delete results[0].password
             resolve(results[0])
-          } else reject(new Error('Usuário não encontrado localmente. Verifique usuário/senha ou tente conectar-se a internet'))
+          } else reject(new Error('Usuário não encontrado localmente. Verifique usuário/senha ou tente conectar-se a internet.'))
         },
         function (error) {
           reject(error)

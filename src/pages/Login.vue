@@ -4,7 +4,7 @@
 
       <div class="area-login fixed-center">
         <div id="box-login" >
-          <div class="q-pa-md row"><q-icon size="8rem" name="img:/icons/macaquinho.png"/></div>
+          <div class="q-pa-md row"><q-icon size="8rem" name="img:icons/macaquinho.png"/></div>
           <div id="formulario">
             <!-- User -->
             <q-input xs12 label="E-mail"
@@ -83,6 +83,12 @@ export default {
               }
             }
           }
+        })
+        .catch(err => {
+          this.$q.notify({
+            message: err.message,
+            color: 'negative'
+          })
         })
         .finally(() => {
           this.loading = false

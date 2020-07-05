@@ -80,7 +80,7 @@ export default {
         })
     },
     goTo (routeName, idDesafio) {
-      this.$router.push({ name: routeName, params: { id: idDesafio } })
+      this.$router.push({ name: routeName, params: { id: idDesafio, idTurma: this.idTurma } })
     }
   }
 }

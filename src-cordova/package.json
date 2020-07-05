@@ -15,12 +15,14 @@
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
+    "cordova-plugin-splashscreen": "^5.0.4",
     "uk.co.workingedge.cordova.plugin.sqliteporter": "^1.1.1"
   },
   "cordova": {
     "plugins": {
       "uk.co.workingedge.cordova.plugin.sqliteporter": {},
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "android",

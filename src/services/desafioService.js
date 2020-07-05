@@ -123,14 +123,16 @@ export default {
       )
     })
   },
-  getAlunosComRespostas (idDesafio) {
+  getAlunosComRespostas (idDesafio, idTurma) {
     return new Promise((resolve, reject) => {
       database.getData(
         'SELECT * FROM ALUNO a ' +
         'LEFT JOIN (SELECT r.* FROM RESPOSTA r INNER JOIN DESAFIO d ON r.id_desafio = d.id ' +
-        'WHERE d.id = ?) AS r ON r.id_aluno = a.id ',
+        '           WHERE d.id = ?) AS r ON r.id_aluno = a.id ' +
+        ' WHERE a.id_turma = ?',
         [
-          idDesafio
+          idDesafio,
+          idTurma
         ],
         (result) => resolve(result),
         reject

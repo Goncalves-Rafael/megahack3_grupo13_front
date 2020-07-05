@@ -1,0 +1,23 @@
+{
+  "params": {
+    "include": [ "cordova" ],
+    "icon": "./public/icons/macaquinho.png"
+  },
+  "assets": [
+    {
+      "generator": "svg",
+      "name": "professor.svg",
+      "folder": "./public/"
+    },
+    {
+      "generator": "svg",
+      "name": "rocket.svg",
+      "folder": "./public/"
+    },
+    {
+      "generator": "svg",
+      "name": "turma.svg",
+      "folder": "./public/"
+    }
+  ]
+}

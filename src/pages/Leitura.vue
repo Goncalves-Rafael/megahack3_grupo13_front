@@ -61,15 +61,18 @@
       </q-card-actions>
      </q-card>
     </q-dialog>
+    <pseudo-bot />
   </div>
 </template>
 
 <script>
+import PseudoBot from '../components/PseudoBot'
 import livroService from '../services/livroService'
 import desafioService from '../services/desafioService'
 
 export default {
   name: 'leitura',
+  components: { PseudoBot },
   data () {
     return {
       livro: null,
@@ -105,6 +108,7 @@ export default {
       deep: true
     },
     paginaAtual (newVal, oldVal) {
+      this.selection = null
       if (this.usuario.papel === 'professor') return
       const pergunta = this.perguntas.find(p => p.pagina === newVal.numero_pagina && p.resposta === null)
       if (pergunta) {

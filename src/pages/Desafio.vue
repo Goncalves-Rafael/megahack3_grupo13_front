@@ -84,6 +84,9 @@ export default {
   computed: {
     idDesafio () {
       return this.$route.params.id
+    },
+    idTurma () {
+      return this.$route.params.idTurma
     }
   },
   mounted () {
@@ -107,7 +110,7 @@ export default {
         })
     },
     getAlunosComRespostas (idDesafio) {
-      desafioService.getAlunosComRespostas(idDesafio)
+      desafioService.getAlunosComRespostas(idDesafio, this.idTurma)
         .then(result => {
           this.alunos = result
         })

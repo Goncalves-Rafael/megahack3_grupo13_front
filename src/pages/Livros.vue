@@ -29,7 +29,7 @@
 
               <q-card-actions align="center">
                 <q-btn icon="create" color="secondary" text-color="white" v-if="livro.tipo == 'resenha' && livro.resenha == null" @click.stop="redigirResenha(livro)"/>
-                <q-btn icon="close" color="red" text-color="white" />
+                <q-btn icon="close" color="red" text-color="white" @click.stop="deletarLivro(livro)"/>
               </q-card-actions>
             </q-card>
           </q-tab-panel>
@@ -150,6 +150,22 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    deletarLivro (livro) {
+      this.$q.dialog({
+        title: 'Confirmação',
+        message: 'Deseja remover o livro dos arquivos locais?',
+        cancel: 'Cancelar',
+        ok: 'Confirmar'
+      }).onOk(() => {
+        livroService.delete(livro.id_livro)
+          .then(result => {
+            this.carregarLivrosLocais()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
     }
   }
 }

@@ -6,10 +6,9 @@
       :option-label="'nome'"
       label="Turma Selecionada" />
     <q-list>
-      <q-item clickable v-ripple v-for="aluno in turmaSelecionada.alunos" :key="'aluno_' + aluno.id">
-        <q-avatar color="primary" text-color="white">
-          {{ aluno.nome[0].toUpperCase() }}
-        </q-avatar>
+      <q-item clickable v-ripple v-for="(aluno, index) in turmaSelecionada.alunos" :key="'aluno_' + aluno.id">
+        <q-icon :color="index == 0 ? 'yellow-7' : index === 1 ? 'blue-grey-6' : index === 2 ? 'orange-13' : ''"
+          class="q-mr-md" name="fa fa-trophy" size="2rem" />
 
         <q-item-section class="q-pl-sm">{{ aluno.nome }}</q-item-section>
         <q-item-section side>{{ aluno.pontuacao + aluno.nota }}</q-item-section>

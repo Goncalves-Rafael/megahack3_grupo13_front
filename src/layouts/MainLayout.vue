@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://lh3.googleusercontent.com/MKFOXKJRiXkd1VfeU8qX38zjMnMmut3UppdYTXcOHKRkVvmfk-ECy7pd3de6kTz5Sq4">
+            <img src="icons/macaquinho.png">
           </q-avatar>
           {{ this.$router.currentRoute.name }}
         </q-toolbar-title>
@@ -14,6 +14,10 @@
 
     <q-page-container>
       <router-view />
+      <q-icon size="24rem" class="absolute-bottom-right"
+        :name="this.$router.currentRoute.name.toLowerCase().includes('turma') ? 'img:icons/turma.svg' :
+          this.$router.currentRoute.name === 'Painel' ? 'img:icons/professor.svg' : 'img:icons/rocket.svg'"
+        style="z-index: -999;"/>
     </q-page-container>
 
     <q-footer bordered class="bg-white text-grey" v-if="$router.currentRoute.name != 'Leitura'">
@@ -22,14 +26,18 @@
           <q-btn color="grey" flat v-for="item in menuItensFiltered" v-bind:key="item.id" clickable :to="item.ref" :icon="item.icon" />
         </div>
       </q-toolbar>
+      <q-page-sticky v-if="pendingSync" position="bottom-right" :offset="[18, 18]">
+        <q-btn fab icon="publish" color="primary" @click="show = true" />
+      </q-page-sticky>
     </q-footer>
   </q-layout>
 </template>
 
 <script>
+import apiService from '../services/apiService'
+
 export default {
   name: 'MainLayout',
-
   data () {
     return {
       leftDrawerOpen: false,
@@ -45,7 +53,8 @@ export default {
         { id: 'aluno', ref: '/aluno', label: 'Aluno', icon: 'fa fa-user' },
         { id: 'livros', ref: '/livros', label: 'Livros', icon: 'fa fa-book' },
         { id: 3, ref: '/sair', label: 'Sair', icon: 'exit_to_app' }
-      ]
+      ],
+      pendingSync: false
     }
   },
   computed: {
@@ -55,6 +64,15 @@ export default {
     menuItensFiltered () {
       return this.usuario.papel === 'professor' ? this.menuItensProfessor : this.menuItensAluno
     }
+  },
+  mounted () {
+    const service = this.usuario.papel === 'professor' ? apiService.checkSincronismoProfessor : apiService.checkSincronismoAluno
+    service()
+      .then(result => {
+        if (result.rows.length > 0) {
+          this.pendingSync = true
+        }
+      })
   },
   methods: {
     voltar () {

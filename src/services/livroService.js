@@ -95,5 +95,18 @@ export default {
         reject
       )
     })
+  },
+  delete (id) {
+    return new Promise((resolve, reject) => {
+      database.executeSql(
+        'DELETE FROM LIVRO ' +
+        'WHERE id = ? ',
+        [
+          id
+        ],
+        resolve,
+        reject
+      )
+    })
   }
 }
