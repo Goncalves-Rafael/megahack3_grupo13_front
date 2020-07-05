@@ -1,32 +1,32 @@
 export default [
   {
     id: 1,
-    titulo: 'Teste',
+    titulo: 'Accelerate: The Science of Lean Software and DevOps',
     data_publicacao: new Date(),
-    autor: 'Mariana',
-    genero: 'Drama',
+    autor: ' Nicole Forsgren',
+    genero: 'TI',
     editora: 'Editor',
     numero_paginas: 8,
-    capa: 'https://images-na.ssl-images-amazon.com/images/I/41xkErt+PKL._SY344_BO1,204,203,200_.jpg'
+    capa: 'https://m.media-amazon.com/images/I/41YpWJi9OoL._SY346_.jpg'
   },
   {
     id: 2,
-    titulo: 'Teste',
+    titulo: 'Beren e Lúthien',
     data_publicacao: new Date(),
-    autor: 'Mariana',
-    genero: 'Drama',
+    autor: 'J. R. R. Tolkien',
+    genero: 'Fantasia',
     editora: 'Editor',
     numero_paginas: 8,
-    capa: 'https://images-na.ssl-images-amazon.com/images/I/41xkErt+PKL._SY344_BO1,204,203,200_.jpg'
+    capa: 'https://m.media-amazon.com/images/I/81VNX2K6cgL._AC_UY218_.jpg'
   },
   {
     id: 3,
-    titulo: 'Teste',
+    titulo: 'O espadachim de carvão  e as pontes de Puzur',
     data_publicacao: new Date(),
-    autor: 'Mariana',
-    genero: 'Drama',
+    autor: 'Affonso Solano',
+    genero: 'Fatnasia',
     editora: 'Editor',
     numero_paginas: 8,
-    capa: 'https://images-na.ssl-images-amazon.com/images/I/41xkErt+PKL._SY344_BO1,204,203,200_.jpg'
+    capa: 'https://m.media-amazon.com/images/I/41zN0XtmumL._AC_UY218_.jpg'
   }
 ]

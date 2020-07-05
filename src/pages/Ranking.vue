@@ -12,7 +12,7 @@
         </q-avatar>
 
         <q-item-section class="q-pl-sm">{{ aluno.nome }}</q-item-section>
-        <q-item-section side>{{ aluno.pontuacao }}</q-item-section>
+        <q-item-section side>{{ aluno.pontuacao + aluno.nota }}</q-item-section>
       </q-item>
     </q-list>
   </div>
@@ -52,7 +52,7 @@ export default {
         })
     },
     getAlunos () {
-      turmaService.getAlunos()
+      turmaService.getAlunosComNotas()
         .then(result => {
           result.forEach(a => {
             this.turmas.find(t => t.id === a.id_turma).alunos.push(a)

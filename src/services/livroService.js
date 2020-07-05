@@ -1,11 +1,16 @@
 import database from '../provider/sqlite/database'
 
 export default {
-  get () {
+  get (idTurma, idAluno) {
     return new Promise((resolve, reject) => {
       database.getData(
-        'SELECT * FROM livro',
-        null,
+        'SELECT *, l.id id_livro, D.id id_desafio FROM LIVRO l ' +
+        ' LEFT JOIN (SELECT * FROM DESAFIO ' +
+        '            WHERE tipo = "resenha" AND id_turma = ?) ' +
+        '   D ON D.id_livro = l.id ',
+        [
+          idTurma
+        ],
         (result) => resolve(result),
         reject
       )
@@ -35,6 +40,19 @@ export default {
         ],
         resolve,
         reject
+      )
+    })
+  },
+  saveProgresso (progresso) {
+    return new Promise((resolve, reject) => {
+      database.persist({
+        inserts: {
+          usuario_livro: [progresso]
+        }
+      },
+      resolve,
+      reject,
+      (arg) => console.log(arg)
       )
     })
   },

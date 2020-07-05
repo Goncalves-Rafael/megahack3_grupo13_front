@@ -51,6 +51,18 @@ export default {
       )
     })
   },
+  getAlunosComNotas () {
+    return new Promise((resolve, reject) => {
+      database.getData(
+        'SELECT * FROM ALUNO a ' +
+        'LEFT JOIN ' +
+        '   (SELECT id_aluno, sum(nota) nota FROM RESPOSTA GROUP BY id_aluno) as r ON a.id = r.id_aluno',
+        null,
+        (result) => resolve(result),
+        reject
+      )
+    })
+  },
   getAlunoById (idAluno) {
     return new Promise((resolve, reject) => {
       database.getData(

@@ -79,16 +79,16 @@ export default {
       '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       '  [id_professor] INTEGER NOT NULL REFERENCES PROFESSOR([id]), ' +
       '  [id_turma] INTEGER NOT NULL REFERENCES TURMA([id]), ' +
+      '  [id_livro] INTEGER NOT NULL REFERENCES LIVRO([id]), ' +
       '  [data_inicio] timestamp NOT NULL, ' +
       '  [data_limite] timestamp NOT NULL, ' +
       '  [tipo] VARCHAR NOT NULL, ' +
-      '  [sincronizado] boolean DEFAULT true, ' +
+      '  [sincronizado] INTEGER DEFAULT 0, ' +
       '  [pontos] INTEGER DEFAULT 0); ',
 
       'CREATE TABLE IF NOT EXISTS [desafio_pergunta] ( ' +
       '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO([id]), ' +
-      '  [id_livro] INTEGER NOT NULL REFERENCES LIVRO([id]), ' +
       '  [pergunta] VARCHAR NOT NULL, ' +
       '  [pagina] INTEGER DEFAULT 0); ',
 
@@ -103,12 +103,23 @@ export default {
       '  [id_aluno_indicado] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
       '  [data_indicacao] timestamp NOT NULL,  [id_livro] INTEGER NOT NULL REFERENCES LIVRO([id])); ',
 
-      'CREATE TABLE IF NOT EXISTS [respostas] ( ' +
+      'CREATE TABLE IF NOT EXISTS [resposta] ( ' +
       '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       '  [id_aluno] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
-      '  [id_pergunta] INTEGER NOT NULL REFERENCES DESAFIO_PERGUNTA([id]), ' +
+      '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO([id]), ' +
+      '  [titulo] VARCHAR, ' +
       '  [resposta] VARCHAR DEFAULT "Sem resposta", ' +
-      '  [nota] INTEGER DEFAULT 0); '
+      '  [sincronizado] INTEGER DEFAULT 0, ' +
+      '  [nota] INTEGER); ',
+
+      'CREATE TABLE IF NOT EXISTS [resenha] ( ' +
+      '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
+      '  [id_aluno] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
+      '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO_PERGUNTA([id]), ' +
+      '  [titulo] VARCHAR, ' +
+      '  [resenha] VARCHAR DEFAULT "Sem resposta", ' +
+      '  [sincronizado] INTEGER DEFAULT 0, ' +
+      '  [nota] INTEGER); '
     ]
   },
   indexs () {

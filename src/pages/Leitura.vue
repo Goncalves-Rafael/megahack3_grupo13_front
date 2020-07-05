@@ -32,7 +32,7 @@
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label>Rafael</q-item-label>
+          <q-item-label>{{ usuario.nome }}</q-item-label>
           <q-item-label caption>Tenho uma pergunta para você</q-item-label>
         </q-item-section>
         <q-item-section side>
@@ -52,8 +52,11 @@
         />
       </q-card-section>
       <q-card-actions class="q-px-md">
-        <q-btn color="secondary">
+        <q-btn color="secondary" @click="salvarResposta" :disable="respostaAtual == null || respostaAtual.length < 1">
           Salvar
+        </q-btn>
+        <q-btn color="grey" @click="salvarResposta">
+          Pular
         </q-btn>
       </q-card-actions>
      </q-card>
@@ -102,7 +105,8 @@ export default {
       deep: true
     },
     paginaAtual (newVal, oldVal) {
-      const pergunta = this.perguntas.find(p => p.pagina === newVal.numero_pagina)
+      if (this.usuario.papel === 'professor') return
+      const pergunta = this.perguntas.find(p => p.pagina === newVal.numero_pagina && p.resposta === null)
       if (pergunta) {
         this.perguntaAtual = pergunta
         this.showPergunta = true
@@ -150,6 +154,9 @@ export default {
       livroService.getCapituloPorNumero(this.idLivro, numeroCapitulo)
         .then(result => {
           this.capitulo = result[0]
+          this.progresso.id_capitulo = this.capitulo.id
+          this.progresso.pagina_atual = this.capitulo.numero_pagina_inicial
+          this.salvarProgresso()
         })
     },
     iniciarLeitura () {
@@ -169,19 +176,46 @@ export default {
     paginaSeguinte () {
       if (this.progresso.pagina_atual === this.capitulo.numero_pagina_final) {
         this.getCapitulo(this.capitulo.numero_capitulo + 1)
+      } else {
+        this.progresso.pagina_atual++
+        this.salvarProgresso()
       }
-      this.progresso.pagina_atual++
     },
     paginaAnterior () {
       if (this.progresso.pagina_atual === this.capitulo.numero_pagina_inicial) {
         this.getCapitulo(this.capitulo.numero_capitulo - 1)
+      } else {
+        this.progresso.pagina_atual--
+        this.salvarProgresso()
       }
-      this.progresso.pagina_atual--
     },
     getPerguntas () {
-      desafioService.getPerguntas(this.idLivro)
+      desafioService.getPerguntas(this.idLivro, this.usuario.id, this.usuario.id_turma)
         .then(result => {
           this.perguntas = result
+        })
+    },
+    salvarResposta () {
+      const resposta = {
+        id_aluno: this.usuario.id,
+        id_desafio: this.perguntaAtual.id_desafio,
+        resposta: this.respostaAtual || 'Sem resposta'
+      }
+      desafioService.salvarResposta(resposta)
+        .then(result => {
+          this.$q.notify({
+            color: 'positive',
+            position: 'top',
+            message: 'Resposta registrada!'
+          })
+          this.perguntaAtual = null
+          this.getPerguntas()
+        })
+    },
+    salvarProgresso () {
+      livroService.saveProgresso(this.progresso)
+        .then(result => {
+          this.getProgresso()
         })
     }
   }

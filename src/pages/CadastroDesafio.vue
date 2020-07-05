@@ -36,40 +36,9 @@
 
       <q-step
         :name="2"
-        title="Preencha os dados do desafio"
+        title="Selecionar livro"
         icon="create_new_folder"
         :done="step > 2"
-      >
-        <div v-if="tipo === 'pergunta'">
-          <div class="text-h6">Pergunta</div>
-          Crie uma questão desafio para o aluno responder durante a leitura.
-          <q-form>
-            <q-input v-model="pergunta" placeholder="Escreva aqui a pergunta"/>
-            <q-input
-              placeholder="Escolha a página em que a pergunta será disparada"
-              v-model="pagina"
-              type="number"
-              :prefix="pagina ? 'Página' : '' "/>
-            <q-input v-model="pontos" type="number" class="max-width: 25px;"
-              placeholder="Escolha quantidade de pontos para o desafio"
-              :suffix="pontos ? 'pontos' : ''"/>
-            <q-select clearable v-model="turmaSelecionada" :options="turmas" :option-label="'nome'"
-              label="Selecionar turma:"
-              :prefix="turmaSelecionada ? 'Turma:' : '' "/>
-              </q-form>
-        </div>
-
-        <q-stepper-navigation>
-          <q-btn @click="step = 3" color="primary" label="Continue" />
-          <q-btn flat @click="step = 1" color="primary" label="Voltar" class="q-ml-sm" />
-        </q-stepper-navigation>
-      </q-step>
-
-      <q-step
-        :name="3"
-        title="Selecionar livro"
-        icon="assignment"
-        :done="step > 3"
       >
         <q-select
           filled
@@ -92,7 +61,50 @@
             <img :src="livro.capa" style="max-width: 10rem;">
           </q-card-section>
         </q-card>
-        <livro-picker :aberta="aberta" @livroSelecionado="alterarLivro" />
+
+        <q-stepper-navigation>
+          <q-btn @click="step = 3" color="primary" label="Continue" :disable="livro == null"/>
+          <q-btn flat @click="step = 1" color="primary" label="Voltar" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step
+        :name="3"
+        title="Preencha os dados do desafio"
+        icon="assignment"
+        :done="step > 3"
+      >
+        <div v-if="tipo === 'pergunta'">
+          <div class="text-h6">Pergunta</div>
+          Crie uma questão desafio para o aluno responder durante a leitura.
+          <q-form>
+            <q-input v-model="pergunta" placeholder="Escreva aqui a pergunta"
+              :rules="[val => (val != null && val.length > 0) || 'Favor preencher a pergunta']"
+            />
+            <q-input
+              placeholder="Escolha a página em que a pergunta será disparada"
+              v-model="pagina"
+              type="number"
+              :rules="[val => (val >= 0 && val <= livro.numero_paginas) || 'Por favor selecione uma página dentro dos limites do livro.']"
+              :prefix="pagina ? 'Página' : '' "/>
+            <q-input v-model="pontos" type="number" class="max-width: 25px;"
+              placeholder="Escolha quantidade de pontos para o desafio"
+              :suffix="pontos ? 'pontos' : ''"/>
+            <q-select clearable v-model="turmaSelecionada" :options="turmas" :option-label="'nome'"
+              label="Selecionar turma:"
+              :prefix="turmaSelecionada ? 'Turma:' : '' "/>
+              </q-form>
+        </div>
+        <div v-else-if="tipo === 'resenha'">
+          <q-input v-model="pontos" type="number" class="max-width: 25px;"
+              placeholder="Escolha quantidade de pontos para o desafio"
+              :suffix="pontos ? 'pontos' : ''"/>
+          <q-select clearable v-model="turmaSelecionada" :options="turmas" :option-label="'nome'"
+              label="Selecionar turma:"
+              :rules="[val => val != null || 'É necessário selecionar uma turma']"
+              :prefix="turmaSelecionada ? 'Turma:' : '' "/>
+        </div>
+
         <q-stepper-navigation>
           <q-btn type="submit" @click="cadastrarNovoDesafio" class="q-pd-none">
             Cadastrar
@@ -100,7 +112,6 @@
           <q-btn flat @click="step = 2" color="primary" label="Voltar" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
-      <livro-picker />
     </q-stepper>
   </div>
 </template>
@@ -110,7 +121,6 @@ import livroService from '../services/livroService'
 import desafioService from '../services/desafioService'
 import perguntaService from '../services/perguntaService'
 import turmaService from '../services/turmaService'
-import LivroPicker from '../components/LivroPicker'
 
 export default {
   data () {
@@ -128,9 +138,6 @@ export default {
       livros: [],
       filterLivros: []
     }
-  },
-  components: {
-    LivroPicker
   },
   computed: {
     usuario () {
@@ -152,10 +159,11 @@ export default {
       const desafio = {
         id_professor: 1,
         id_turma: this.turmaSelecionada.id,
+        id_livro: this.livro.id_livro,
         data_inicio: new Date(),
         data_limite: new Date(),
         tipo: this.tipo,
-        sincronizado: false,
+        sincronizado: 0,
         pontos: this.pontos
       }
       desafioService.save(desafio)
@@ -163,13 +171,19 @@ export default {
           if (result > 0) {
             if (this.tipo === 'pergunta') {
               this.cadastrarPergunta()
+            } else {
+              this.$q.notify({
+                color: 'positive',
+                message: 'Desafio criado com sucesso!',
+                position: 'top'
+              })
+              this.$router.push({ name: 'Painel' })
             }
           }
         })
     },
     cadastrarPergunta () {
       const pergunta = {
-        id_livro: this.livro.id,
         pergunta: this.pergunta,
         pagina: this.pagina || 0
       }
@@ -178,9 +192,10 @@ export default {
         .then(() => {
           this.$q.notify({
             color: 'positive',
-            message: 'Desafio criado com sucesso!'
+            message: 'Desafio criado com sucesso!',
+            position: 'top'
           })
-          this.$router.push({ name: 'Dashboard' })
+          this.$router.push({ name: 'Painel' })
         })
     },
     getTurmas () {

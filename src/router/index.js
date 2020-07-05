@@ -44,7 +44,7 @@ export default function (/* { store, ssrContext } */) {
           if (usuario.papel === 'professor') {
             next()
           } else {
-            next({ name: 'livros' })
+            next({ name: 'Livros' })
           }
         } else {
           next()

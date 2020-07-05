@@ -36,16 +36,8 @@ export default {
               desafio_pergunta: [pergunta]
             }
           },
-          (result) => {
-            debugger
-            console.log(result)
-            resolve(result)
-          },
-          (result) => {
-            debugger
-            console.log(result)
-            reject(result)
-          },
+          resolve,
+          reject,
           (arg) => console.log(arg)
           )
         })

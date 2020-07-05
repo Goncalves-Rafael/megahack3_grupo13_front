@@ -2,25 +2,41 @@ export default [
   {
     id: 2,
     idade: 8,
-    nome: 'aluno 1',
+    nome: 'Danilo',
     sexo: 'M',
     id_turma: 1,
-    pontuacao: 15
+    pontuacao: 0
   },
   {
     id: 3,
     idade: 8,
-    nome: 'aluno 2',
+    nome: 'Anna',
     sexo: 'F',
     id_turma: 1,
-    pontuacao: 25
+    pontuacao: 0
   },
   {
     id: 4,
     idade: 7,
-    nome: 'aluno 3',
-    sexo: 'F',
-    id_turma: 1,
-    pontuacao: 5
+    nome: 'William',
+    sexo: 'M',
+    id_turma: 2,
+    pontuacao: 0
+  },
+  {
+    id: 5,
+    idade: 7,
+    nome: 'Higor',
+    sexo: 'M',
+    id_turma: 2,
+    pontuacao: 0
+  },
+  {
+    id: 6,
+    idade: 7,
+    nome: 'Rafael',
+    sexo: 'M',
+    id_turma: 2,
+    pontuacao: 0
   }
 ]

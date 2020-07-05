@@ -25,11 +25,25 @@ export default {
       try {
         this.dbAuth(email, senha)
           .then(response => {
-            document.cookie = 'rememberMe=true'
-            LocalStorage.set('default_auth_token', response.token)
-            delete response.token
-            LocalStorage.set('userData', response)
-            resolve(response)
+            database.getData(
+              'SELECT * ' +
+              ' FROM ' + response.papel +
+              ' WHERE id = ?', [response.id],
+              function (results) {
+                const usuarioDados = {
+                  ...response,
+                  ...results[0]
+                }
+                document.cookie = 'rememberMe=true'
+                LocalStorage.set('default_auth_token', response.token)
+                delete response.token
+                LocalStorage.set('userData', usuarioDados)
+                resolve(usuarioDados)
+              },
+              function (error) {
+                reject(error)
+              }
+            )
           })
       } catch (error) {
         reject(error)
@@ -42,7 +56,9 @@ export default {
   dbAuth (email, senha) {
     return new Promise((resolve, reject) => {
       database.getData(
-        'SELECT * FROM USUARIO WHERE email = ? AND senha = ?', [email, senha],
+        'SELECT U.* ' +
+        ' FROM USUARIO U ' +
+        ' WHERE email = ? AND senha = ?', [email, senha],
         function (results) {
           if (results[0]) {
             delete results[0].password
@@ -67,5 +83,8 @@ export default {
         reject(error)
       })
     })
+  },
+  getAlunoById (id) {
+
   }
 }

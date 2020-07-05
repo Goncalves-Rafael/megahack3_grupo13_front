@@ -5,7 +5,7 @@
       :key="serie.id"
       expand-separator
       icon="perm_identity"
-      :label="serie.nivel + serie.id + 'º'"
+      :label="serie.nivel"
     >
       <q-card v-for="turma in serie.turmas" :key="'turma_' + turma.id" @click="goTo('Turma', turma.id)">
         <q-card-section>

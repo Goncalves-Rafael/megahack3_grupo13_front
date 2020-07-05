@@ -5,14 +5,16 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     meta: { auth: true },
     children: [
-      { name: 'Dashboard', path: '/', meta: { auth: true, isProfessor: true }, component: () => import('pages/Dashboard.vue') },
+      { name: 'Painel', path: '/', meta: { auth: true, isProfessor: true }, component: () => import('pages/Dashboard.vue') },
       { name: 'Turmas', path: '/turmas', meta: { auth: true, isProfessor: true }, component: () => import('pages/Turmas.vue') },
       { name: 'Turma', path: '/turmas/:id', meta: { auth: true, isProfessor: true }, component: () => import('pages/DashboardTurma.vue') },
       { name: 'Ranking Alunos', path: '/ranking', meta: { auth: true, isProfessor: true }, component: () => import('pages/Ranking.vue') },
-      { name: 'livros', path: '/livros', meta: { auth: true }, component: () => import('pages/Livros.vue') },
-      { path: '/leitura/:id', meta: { auth: true }, component: () => import('pages/Leitura.vue') },
+      { name: 'Livros', path: '/livros', meta: { auth: true }, component: () => import('pages/Livros.vue') },
+      { name: 'Alunos', path: '/aluno/:id', meta: { auth: true }, component: () => import('pages/Aluno.vue') },
+      { name: 'Alunos', path: '/aluno', meta: { auth: true }, component: () => import('pages/Aluno.vue') },
+      { name: 'Leitura', path: '/leitura/:id', meta: { auth: true }, component: () => import('pages/Leitura.vue') },
       { name: 'Cadastro Desafio', path: '/desafios/cadastrar', meta: { auth: true, isProfessor: true }, component: () => import('pages/CadastroDesafio.vue') },
-      { path: '/desafios', meta: { auth: true }, component: () => import('pages/Desafios.vue') }
+      { name: 'Desafio', path: '/desafio/:id', meta: { auth: true }, component: () => import('pages/Desafio.vue') }
     ]
   },
   {

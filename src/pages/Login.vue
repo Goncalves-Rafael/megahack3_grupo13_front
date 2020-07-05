@@ -3,8 +3,8 @@
     <q-layout class="layout-page-login q-pa-lg" row wrap>
 
       <div class="area-login fixed-center">
-        <div id="box-login">
-          <div><img src="''"/></div>
+        <div id="box-login" >
+          <div class="q-pa-md row"><q-icon size="8rem" name="img:/icons/macaquinho.png"/></div>
           <div id="formulario">
             <!-- User -->
             <q-input xs12 label="E-mail"

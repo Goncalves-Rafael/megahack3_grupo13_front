@@ -102,7 +102,7 @@ export default {
         data_inicio: new Date(),
         data_limite: new Date(),
         tipo: this.tab,
-        sincronizado: false,
+        sincronizado: 0,
         pontos: this.pontos
       }
       desafioService.save(desafio)
@@ -123,7 +123,7 @@ export default {
 
       perguntaService.save(pergunta)
         .then(() => {
-          this.$q.notify('seila')
+          this.$q.notify()
         })
     }
   }
