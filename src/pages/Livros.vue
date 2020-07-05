@@ -15,7 +15,14 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="livros">
-            Sem conexão no momento
+            <div class="text-h6">
+              Sem conexão no momento
+            </div>
+            <div>
+              <q-btn @click="importar = true" color="secondary">
+                Importar
+              </q-btn>
+            </div>
           </q-tab-panel>
 
           <q-tab-panel name="baixados" class="row livro--card">
@@ -28,6 +35,7 @@
               </q-card-section>
 
               <q-card-actions align="center">
+                <q-btn icon="fa fa-share-alt" color="blue" text-color="white" @click.stop="compartilhar(livro)"/>
                 <q-btn icon="create" color="secondary" text-color="white" v-if="livro.tipo == 'resenha' && livro.resenha == null" @click.stop="redigirResenha(livro)"/>
                 <q-btn icon="close" color="red" text-color="white" @click.stop="deletarLivro(livro)"/>
               </q-card-actions>
@@ -76,12 +84,27 @@
       </q-card-actions>
      </q-card>
     </q-dialog>
+    <q-dialog v-model="importar" transition-show="scale">
+      <q-card class="full-width">
+        <q-file v-model="encriptedBook" label="Selecionar arquivo">
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+        <q-card-actions>
+          <q-btn color="secondary" @click="importarLivro">
+            Confirmar
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import livroService from '../services/livroService'
 import desafioService from '../services/desafioService'
+import apiService from '../services/apiService'
 
 export default {
   data () {
@@ -95,7 +118,9 @@ export default {
       resenha: {
         titulo: null,
         corpo: null
-      }
+      },
+      importar: null,
+      encriptedBook: null
     }
   },
   computed: {
@@ -166,6 +191,81 @@ export default {
             console.log(err)
           })
       })
+    },
+    compartilhar (livro) {
+      apiService.atualizarDesafios()
+      this.montarLivro(livro.id_livro)
+        .then(livro => {
+          const element = document.createElement('a')
+          element.setAttribute('href', 'data:arvore/plain;charset=utf-8,' + encodeURIComponent(livroService.getEncryptedBook(livro)))
+          element.setAttribute('download', livro.titulo)
+
+          element.style.display = 'none'
+          document.body.appendChild(element)
+
+          element.click()
+
+          document.body.removeChild(element)
+        })
+    },
+    montarLivro (id) {
+      return new Promise((resolve, reject) => {
+        livroService.getById(id)
+          .then(result => {
+            const livro = result[0]
+            livroService.getCapitulos(livro.id)
+              .then(result => {
+                livro.capitulos = result
+                const promises = []
+                for (let i = 0; i < livro.capitulos.length; i++) {
+                  promises.push(
+                    this.montarCapitulo(livro.capitulos[i])
+                  )
+                }
+                Promise.all(promises)
+                  .then(() => {
+                    resolve(livro)
+                  })
+              })
+          })
+      })
+    },
+    montarCapitulo (capitulo) {
+      return new Promise((resolve, reject) => {
+        livroService.getPaginas(capitulo.id)
+          .then(result => {
+            capitulo.paginas = result
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    importarLivro (livro) {
+      var reader = new FileReader()
+      reader.onload = function (event) {
+        var contents = event.target.result
+        const livroCompleto = livroService.decryptBook(contents)
+        const capitulos = livroCompleto.capitulos
+        delete livroCompleto.capitulos
+        let paginas = []
+        for (let i = 0; i < capitulos.length; i++) {
+          paginas = capitulos[i].paginas.concat(paginas)
+          delete capitulos[i].paginas
+        }
+        livroService.saveLivro(livroCompleto, capitulos, paginas)
+          .then(result => {
+            this.carregarLivrosLocais()
+            this.importar = false
+            this.tab = 'baixados'
+          })
+      }.bind(this)
+
+      reader.onerror = function (event) {
+        console.error('File could not be read! Code ' + event.target.error.code)
+      }
+      reader.readAsText(this.encriptedBook)
     }
   }
 }

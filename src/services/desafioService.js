@@ -9,7 +9,7 @@ export default {
         ' LEFT JOIN desafio_pergunta as dp ON d.id = dp.id_desafio' +
         ' LEFT JOIN livro as l ON d.id_livro = l.id',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -44,7 +44,7 @@ export default {
         'SELECT * FROM DESAFIO' +
         ' ORDER BY ID DESC LIMIT 1',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -61,7 +61,7 @@ export default {
           idAluno,
           idLivro
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -75,7 +75,7 @@ export default {
         [
           idDesafio
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -90,7 +90,7 @@ export default {
         [
           idTurma
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -134,7 +134,7 @@ export default {
           idDesafio,
           idTurma
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })

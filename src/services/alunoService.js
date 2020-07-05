@@ -10,7 +10,7 @@ export default {
         [
           idAluno
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -24,7 +24,7 @@ export default {
         [
           idAluno
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })

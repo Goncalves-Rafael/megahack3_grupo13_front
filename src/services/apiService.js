@@ -39,5 +39,28 @@ export default {
         reject
       )
     })
+  },
+
+  atualizarDesafios (desafios) {
+    return new Promise((resolve, reject) => {
+      const promises = []
+      promises.push(this.limparDesafios)
+      Promise.all(promises)
+        .then(resolve)
+      // promises.push(this.limparResenhas)
+      // promises.push(this.limparDesafiosPerguntas)
+      // promises.push(this.limparDesafios)
+    })
+  },
+
+  limparDesafios () {
+    return new Promise((resolve, reject) => {
+      database.executeSql(
+        'DELETE FROM RESENHA; DELETE FROM DESAFIO_PERGUNTA; DELETE FROM RESPOSTA; DELETE FROM DESAFIO;',
+        null,
+        resolve,
+        reject
+      )
+    })
   }
 }

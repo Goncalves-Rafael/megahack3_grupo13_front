@@ -92,17 +92,6 @@ export default {
       '  [pergunta] VARCHAR NOT NULL, ' +
       '  [pagina] INTEGER DEFAULT 0); ',
 
-      'CREATE TABLE IF NOT EXISTS [desafio_indicacao] ( ' +
-      '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-      '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO([id]), ' +
-      '  [genero] VARCHAR NOT NULL); ',
-
-      'CREATE TABLE IF NOT EXISTS [indicacao] ( ' +
-      '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
-      '  [id_aluno_responsavel] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
-      '  [id_aluno_indicado] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
-      '  [data_indicacao] timestamp NOT NULL,  [id_livro] INTEGER NOT NULL REFERENCES LIVRO([id])); ',
-
       'CREATE TABLE IF NOT EXISTS [resposta] ( ' +
       '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       '  [id_aluno] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
@@ -115,7 +104,7 @@ export default {
       'CREATE TABLE IF NOT EXISTS [resenha] ( ' +
       '  [id] INTEGER PRIMARY KEY AUTOINCREMENT, ' +
       '  [id_aluno] INTEGER NOT NULL REFERENCES ALUNO([id]), ' +
-      '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO_PERGUNTA([id]), ' +
+      '  [id_desafio] INTEGER NOT NULL REFERENCES DESAFIO([id]), ' +
       '  [titulo] VARCHAR, ' +
       '  [resenha] VARCHAR DEFAULT "Sem resposta", ' +
       '  [sincronizado] INTEGER DEFAULT 0, ' +

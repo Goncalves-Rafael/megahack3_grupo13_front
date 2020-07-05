@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js'
 import database from '../provider/sqlite/database'
 
 export default {
@@ -11,7 +12,7 @@ export default {
         [
           idTurma
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -56,6 +57,19 @@ export default {
       )
     })
   },
+  getCapitulos (idLivro) {
+    return new Promise((resolve, reject) => {
+      database.getData(
+        'SELECT * FROM capitulo' +
+        ' WHERE id_livro = ? ',
+        [
+          idLivro
+        ],
+        resolve,
+        reject
+      )
+    })
+  },
   getCapitulo (id) {
     return new Promise((resolve, reject) => {
       database.getData(
@@ -64,7 +78,7 @@ export default {
         [
           id
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -78,7 +92,7 @@ export default {
           idLivro,
           numeroCapitulo
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -91,8 +105,23 @@ export default {
         [
           idCapitulo
         ],
-        (result) => resolve(result),
+        resolve,
         reject
+      )
+    })
+  },
+  saveLivro (livro, capitulos, paginas) {
+    return new Promise((resolve, reject) => {
+      database.persist({
+        inserts: {
+          livro: [livro],
+          capitulo: capitulos,
+          pagina: paginas
+        }
+      },
+      resolve,
+      reject,
+      (arg) => console.log(arg)
       )
     })
   },
@@ -108,5 +137,12 @@ export default {
         reject
       )
     })
+  },
+  getEncryptedBook (livro) {
+    return CryptoJS.AES.encrypt(JSON.stringify(livro), 'token').toString()
+  },
+  decryptBook (encriptedBook) {
+    const bytes = CryptoJS.AES.decrypt(encriptedBook, 'token')
+    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
   }
 }

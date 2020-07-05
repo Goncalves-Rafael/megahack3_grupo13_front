@@ -1,12 +1,12 @@
 <template>
   <div>
     <q-dialog v-model="show" >
-      <q-card class="bg-grey-4">
+      <q-card >
         <q-item v-ripple>
           <q-item-section side>
             <q-avatar rounded size="48px">
               <img src="https://lh3.googleusercontent.com/MKFOXKJRiXkd1VfeU8qX38zjMnMmut3UppdYTXcOHKRkVvmfk-ECy7pd3de6kTz5Sq4" />
-              <q-badge floating color="red">Conversa</q-badge>
+              <q-badge floating color="red">Mike</q-badge>
             </q-avatar>
           </q-item-section>
         </q-item>

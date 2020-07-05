@@ -7,7 +7,7 @@ export default {
       database.getData(
         'SELECT * FROM desafio_pergunta',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -20,7 +20,7 @@ export default {
         [
           id
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -49,7 +49,7 @@ export default {
         'SELECT * FROM DESAFIO' +
         ' ORDER BY ID DESC LIMIT 1',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })

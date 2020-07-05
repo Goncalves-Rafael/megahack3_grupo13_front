@@ -10,7 +10,7 @@ export default {
         [
           idProfessor
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -23,7 +23,7 @@ export default {
         [
           id
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -46,7 +46,7 @@ export default {
       database.getData(
         'SELECT * FROM ALUNO',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -58,7 +58,7 @@ export default {
         'LEFT JOIN ' +
         '   (SELECT id_aluno, sum(nota) nota FROM RESPOSTA GROUP BY id_aluno) as r ON a.id = r.id_aluno',
         null,
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
@@ -71,7 +71,7 @@ export default {
         [
           idAluno
         ],
-        (result) => resolve(result),
+        resolve,
         reject
       )
     })
