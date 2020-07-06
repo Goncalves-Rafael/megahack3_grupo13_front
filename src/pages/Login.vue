@@ -1,8 +1,8 @@
 <template>
   <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
     <q-layout class="layout-page-login q-pa-lg" row wrap>
-      <div class="q-pa-md row"><q-icon size="24rem" name="img:icons/logo_herois.svg"/></div>
       <div class="area-login fixed-center">
+        <q-icon size="24rem" name="img:icons/logo_herois.svg"/>
         <div id="box-login" >
           <div id="formulario">
             <!-- User -->

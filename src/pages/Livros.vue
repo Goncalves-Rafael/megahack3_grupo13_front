@@ -105,6 +105,7 @@
 import livroService from '../services/livroService'
 import desafioService from '../services/desafioService'
 import apiService from '../services/apiService'
+import fileService from '../services/fileService'
 
 export default {
   data () {
@@ -206,6 +207,7 @@ export default {
           element.click()
 
           document.body.removeChild(element)
+          fileService.saveFile(livro, livroService.getEncryptedBook(livro))
         })
     },
     montarLivro (id) {

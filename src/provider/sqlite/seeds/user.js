@@ -40,5 +40,33 @@ export default [
     senha: '123',
     token: 'token',
     papel: 'aluno'
+  },
+  {
+    id: 7,
+    email: 'higor@megahack.com',
+    senha: '123',
+    token: 'token',
+    papel: 'aluno'
+  },
+  {
+    id: 8,
+    email: 'rafael@megahack.com',
+    senha: '123',
+    token: 'token',
+    papel: 'aluno'
+  },
+  {
+    id: 9,
+    email: 'higor@megahack.com',
+    senha: '123',
+    token: 'token',
+    papel: 'aluno'
+  },
+  {
+    id: 10,
+    email: 'rafael@megahack.com',
+    senha: '123',
+    token: 'token',
+    papel: 'aluno'
   }
 ]

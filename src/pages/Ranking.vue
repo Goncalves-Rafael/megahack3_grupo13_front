@@ -53,9 +53,13 @@ export default {
     getAlunos () {
       turmaService.getAlunosComNotas()
         .then(result => {
-          result.forEach(a => {
-            this.turmas.find(t => t.id === a.id_turma).alunos.push(a)
-          })
+          for (let i = 0; i < result.length; i++) {
+            const aluno = result[i]
+            this.turmas.find(t => t.id === aluno.id_turma).alunos.push(aluno)
+          }
+          for (let i = 0; i < this.turmas.length; i++) {
+            this.turmas[i].alunos.sort((a, b) => (b.pontuacao + b.nota) - (a.pontuacao + a.nota))
+          }
           this.turmaSelecionada = this.turmas[0]
         })
     }

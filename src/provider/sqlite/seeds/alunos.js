@@ -38,5 +38,21 @@ export default [
     sexo: 'M',
     id_turma: 2,
     pontuacao: 0
+  },
+  {
+    id: 7,
+    idade: 7,
+    nome: 'Pedro',
+    sexo: 'M',
+    id_turma: 2,
+    pontuacao: 0
+  },
+  {
+    id: 8,
+    idade: 7,
+    nome: 'Joana',
+    sexo: 'M',
+    id_turma: 2,
+    pontuacao: 0
   }
 ]
